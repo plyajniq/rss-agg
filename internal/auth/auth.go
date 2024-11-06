@@ -8,7 +8,7 @@ import (
 
 // GetAPIKey from header
 // Example:
-// Authorization: ApiKey {<token>}
+// Authorization: ApiKey <token>
 func GetAPIKey(header http.Header) (string, error) {
 	headerVal := header.Get("Authorization")
 	if headerVal == "" {
