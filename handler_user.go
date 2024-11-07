@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/plyajniq/rss-agg/internal/auth"
 	"github.com/plyajniq/rss-agg/internal/database"
 )
 
