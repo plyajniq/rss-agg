@@ -42,4 +42,22 @@ func startScraping(
 func scrapeFeed(db *database.Queries, wg *sync.WaitGroup, feed database.Feed) {
 	// -1 to counter of goroutines to wait
 	defer wg.Done()
+
+	_, err := db.MarkFeedAsFetched(context.Background(), feed.ID)
+	if err != nil {
+		log.Printf("error to fetching: %v", err)
+		return
+	}
+
+	rssFeed, err := urlToFeed(feed.Url)
+	if err != nil {
+		log.Printf("Fail to get RSSFeed from URL: %v", err)
+		return
+	}
+
+	for _, item := range rssFeed.Channel.Item {
+		log.Println("Found post: ", item.Title, "from ", feed.Name)
+	}
+	log.Printf("Feed %s updated with %v posts", feed.Name, len(rssFeed.Channel.Item))
+
 }
