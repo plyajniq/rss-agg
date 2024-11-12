@@ -2,10 +2,12 @@ package main
 
 import (
 	"context"
+	"database/sql"
 	"log"
 	"sync"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/plyajniq/rss-agg/internal/database"
 )
 
@@ -56,7 +58,31 @@ func scrapeFeed(db *database.Queries, wg *sync.WaitGroup, feed database.Feed) {
 	}
 
 	for _, item := range rssFeed.Channel.Item {
-		log.Println("Found post: ", item.Title, "from ", feed.Name)
+		description := sql.NullString{}
+		if item.Description != "" {
+			description.String = item.Description
+			description.Valid = true
+		}
+
+		pubDate, err := time.Parse(time.RFC1123Z, item.PubDate)
+		if err != nil {
+			log.Printf("Fail to parse date %v with error: %v", item.PubDate, err)
+			continue
+		}
+
+		_, err = db.CreatePost(context.Background(), database.CreatePostParams{
+			ID:        uuid.New(),
+			CreatedAt: time.Now().UTC(),
+			UpdatedAt: time.Now().UTC(),
+			Title: item.Title,
+			Description: description,
+			PublishedAt: pubDate,
+			Url: item.Link,
+			FeedID: feed.ID,
+		})
+		if err != nil {
+			log.Printf("Fail to create post: %v", err)
+		}
 	}
 	log.Printf("Feed %s updated with %v posts", feed.Name, len(rssFeed.Channel.Item))
 
