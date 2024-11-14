@@ -1,4 +1,4 @@
-module github.com/plyajniq/rss-agg
+module rss-agg
 
 go 1.23.2
 
