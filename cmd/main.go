@@ -9,7 +9,8 @@ import (
 	"time"
 
 	"rss-agg/internal/database"
-	"rss-agg/internal/handler"
+	"rss-agg/internal/handler/api"
+	"rss-agg/internal/handler/front"
 	"rss-agg/internal/middleware"
 	"rss-agg/internal/utils"
 
@@ -55,29 +56,39 @@ func main() {
 		MaxAge:           300,
 	}))
 
-	v1ApiRouter := chi.NewRouter()
-	v1ApiRouter.Use(middleware.DBConn(dbConn))
+	mainRouter.Use(middleware.DBConn(dbConn))
 
+	apiRouter := chi.NewRouter()
+	v1ApiRouter := chi.NewRouter()
 	// public group
 	v1ApiRouter.Group(func(public chi.Router) {
-		public.Get("/healthz", handler.HealthCheck)
-		public.Get("/err", handler.Error)
-		public.Post("/users", handler.CreateUser)
-		public.Get("/feeds", handler.GetAllFeeds)
+		public.Get("/healthz", api.HealthCheck)
+		public.Get("/err", api.Error)
+		public.Post("/users", api.CreateUser)
+		public.Get("/feeds", api.GetAllFeeds)
 	})
 
 	// private group
 	v1ApiRouter.Group(func(private chi.Router) {
 		private.Use(middleware.BasicAuth(dbConn))
-		private.Get("/users", handler.GetMyUserData)
-		private.Post("/feeds", handler.CreateFeed)
-		private.Post("/feed_follows", handler.CreateFeedFollow)
-		private.Get("/feed_follows", handler.GetFeedFollows)
-		private.Delete("/feed_follows/{feedFollowID}", handler.DeleteFeedFollows)
-		private.Get("/posts", handler.GetPostsForUser)
+		private.Get("/users", api.GetMyUserData)
+		private.Post("/feeds", api.CreateFeed)
+		private.Post("/feed_follows", api.CreateFeedFollow)
+		private.Get("/feed_follows", api.GetFeedFollows)
+		private.Delete("/feed_follows/{feedFollowID}", api.DeleteFeedFollows)
+		private.Get("/posts", api.GetPostsForUser)
 	})
 
-	mainRouter.Mount("/v1", v1ApiRouter)
+	apiRouter.Mount("/v1", v1ApiRouter)
+	mainRouter.Mount("/api", apiRouter)
+
+	basicWeb := chi.NewRouter()
+	basicWeb.Group(func(public chi.Router) {
+		public.Get("/", front.GetTopFeeds)
+		public.Get("/feeds/{feedID}", front.GetFeedPosts)
+	})
+
+	mainRouter.Mount("/", basicWeb)
 
 	svr := &http.Server{
 		Handler: mainRouter,

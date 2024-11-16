@@ -1,0 +1,9 @@
+{{define "content"}}
+    <h1>Список постов канала: {{ .Feed.Name }}</h1>
+    {{range .Posts}}
+        <h2>{{.Title}}</h2>
+        <p>{{.Description}}</p>
+    {{else}}
+        <p>Нет контента</p>
+    {{end}}
+{{end}}

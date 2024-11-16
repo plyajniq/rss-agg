@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Head}}</title>
+</head>
+<body>
+    <header>
+        <h1>{{.Header}}</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Главная</a></li>
+                <li><a href="/users">Мои данные</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div id="content">
+        {{block "content" .}}{{end}} <!-- Здесь будет динамическая часть -->
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Компания. Все права защищены.</p>
+    </footer>
+</body>
+</html>
