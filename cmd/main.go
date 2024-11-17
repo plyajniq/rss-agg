@@ -55,8 +55,9 @@ func main() {
 		AllowCredentials: false,
 		MaxAge:           300,
 	}))
-
 	mainRouter.Use(middleware.DBConn(dbConn))
+
+	mainRouter.Handle("/static/*", http.StripPrefix("/static/", http.FileServer(http.Dir("../static"))))
 
 	apiRouter := chi.NewRouter()
 	v1ApiRouter := chi.NewRouter()

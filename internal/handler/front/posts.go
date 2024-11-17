@@ -14,6 +14,20 @@ import (
 	"github.com/google/uuid"
 )
 
+func LoadPostsTemplate() *template.Template {
+	base_tmpt := filepath.Join("..", "templates", "base.html")
+	posts_tmpt := filepath.Join("..", "templates", "content", "posts.html")
+	head_tmpt := filepath.Join("..", "templates", "core", "head.html")
+	header_tmpt := filepath.Join("..", "templates", "core", "header.html")
+	footer_tmpt := filepath.Join("..", "templates", "core", "footer.html")
+
+	tmpl, err := template.ParseFiles(base_tmpt, posts_tmpt, head_tmpt, header_tmpt, footer_tmpt)
+	if err != nil {
+		log.Fatal("Ошибка при загрузке шаблонов:", err)
+	}
+	return tmpl
+}
+
 func GetFeedPosts(w http.ResponseWriter, r *http.Request) {
 	db := ctx.GetDBContext(r)
 
@@ -37,13 +51,6 @@ func GetFeedPosts(w http.ResponseWriter, r *http.Request) {
 		utils.RespondWithError(w, http.StatusBadRequest, fmt.Sprintf("Fail to get all posts: %v", err))
 		return
 	}
-	base_tmpt := filepath.Join("..", "templates", "base.html")
-	posts_tmpt := filepath.Join("..", "templates", "content", "posts.html")
-
-	tmpl, err := template.ParseFiles(base_tmpt, posts_tmpt)
-	if err != nil {
-		log.Fatal("Ошибка при загрузке шаблонов:", err)
-	}
 
 	data := map[string]interface{}{
 		"Header": "Ахуеть, работает!",
@@ -51,6 +58,8 @@ func GetFeedPosts(w http.ResponseWriter, r *http.Request) {
 		"Posts":  posts,
 		"Feed":   feed,
 	}
+
+	tmpl := LoadPostsTemplate()
 	err = tmpl.ExecuteTemplate(w, "base.html", data)
 	if err != nil {
 		log.Println("Ошибка при рендеринге шаблона:", err)

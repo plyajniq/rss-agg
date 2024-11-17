@@ -1,22 +1,22 @@
-{{define "content"}}
-    <h2>Добро пожаловать на главную страницу!</h2>
-    <h3>{{.Special}}</h3>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Имя</th>
-                <th>Ссылка</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{range .Feeds}} <!-- Перебираем срез данных Feeds -->
-                <tr>
-                    <td><a href="/feeds/{{.ID}}">{{.Name}}</a></td> <!-- Выводим имя пользователя -->
-                    <td>{{.Url}}</td> <!-- Выводим email -->
-                </tr>
-            {{else}} <!-- Если срез пустой, показываем сообщение -->
-                <tr><td colspan="2">Нет пользователей для отображения</td></tr>
-            {{end}}
-        </tbody>
-    </table>
+{{define "feeds"}}
+    <div class="text-center mb-4">
+        <h1>ฅ^•ﻌ•^ฅ</h1>
+        <h1 class="feeds-header">👇 Каналы которые можно почитать 👀</h1>
+    </div>
+    <div class="container">
+        <div class="row">
+            {{- range .Feeds }}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                ⚡ {{ .Name }}<br>
+                                <a href="/feeds/{{ .ID }}" class="text-decoration-none read-link">Что пишут тут *<u>клик</u>*</a>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+            {{- end }}
+        </div>
+    </div>
 {{end}}

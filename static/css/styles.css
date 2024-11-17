@@ -1,0 +1,51 @@
+/* static/css/styles.css */
+.post-card {
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.post-card .card-title {
+    font-size: 1.5rem;
+    color: #333;
+}
+.post-card .card-text {
+    font-size: 1rem;
+    color: #555;
+}
+.post-card .post-date {
+    font-size: 0.9rem;
+    color: #888;
+    margin-top: 10px;
+}
+h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+}
+body {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+}
+.read-link {
+    color: #007bff;
+    font-size: 15px;
+}
+/* .feeds-header {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    color: #00ff95;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    -webkit-text-stroke: 2px #000000;
+    -webkit-font-smoothing: antialiased;
+} */
+
+.feeds-header {
+    color: #00ff95;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    font-size: 34px;
+    font-weight: 800;
+
+    -webkit-font-smoothing: antialiased;
+    font-family: 'Montserrat', sans-serif;
+}
