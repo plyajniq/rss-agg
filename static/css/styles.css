@@ -49,3 +49,36 @@ body {
     -webkit-font-smoothing: antialiased;
     font-family: 'Montserrat', sans-serif;
 }
+.post-header {
+    color: #1c1818;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    font-size: 25px;
+    font-weight: 800;
+
+    -webkit-font-smoothing: antialiased;
+    font-family: 'Montserrat', sans-serif;
+}
+.post-card-header {
+    color: #1c1818;
+    font-size: 25px;
+    font-weight: 700;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.post-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    margin-top: 10px;
+
+.read-post-date {
+    font-size: 1rem;
+    color: #555;
+}
+
+.read-post-link {
+    font-size: 1rem;
+    color: #3498db;
+    font-weight: bold;
+}

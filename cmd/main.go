@@ -87,6 +87,7 @@ func main() {
 	basicWeb.Group(func(public chi.Router) {
 		public.Get("/", front.GetTopFeeds)
 		public.Get("/feeds/{feedID}", front.GetFeedPosts)
+		public.Get("/about", front.GetAbout)
 	})
 
 	mainRouter.Mount("/", basicWeb)

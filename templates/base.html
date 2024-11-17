@@ -12,8 +12,10 @@
             {{- block "posts" .}}{{end}}
         {{- else if .Feeds}}
             {{- block "feeds" .}}{{end}}
+        {{- else if .About}}
+            {{- block "about" .}}{{end}}
         {{- else}}
-            <p>Забыли добавить контента</p>
+            Контента пока нет
         {{end}}
     </div>
     {{- block "footer" . }}{{- end }}

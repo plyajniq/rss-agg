@@ -1,6 +1,6 @@
 {{define "posts"}}
 <div class="text-center mb-4">
-    <h1>ᓚ₍ ^. ̫ .^₎ 𓆝 𓆟 𓆞 𓆝 𓆟</h1>
+    <h1>/ᐠ≽•ヮ•≼マ 𓆝 𓆟 𓆞 𓆝 𓆟</h1>
     <br>
     <h1 class="feeds-header">{{ .Feed.Name}}</h1>
 </div>
@@ -10,8 +10,8 @@
             <div class="col-md-4">
                 <div class="post-card">
                     <h3 class="card-title">{{ .Title }}</h3>
-                    <p class="card-text">{{ printf "%.180s" .Description.String}}...</p>
-                    <a href="/posts/{{ .ID }}" class="text-decoration-none read-link">Читать полностью *<u>клик</u>*</a>
+                    <p class="card-text">{{ .Description.String}}</p>
+                    <a href="{{ .Url }}" class="text-decoration-none read-link">Читать полностью *<u>клик</u>*</a>
                     <p class="post-date">Дата публикации: {{ .PublishedAt.Format "2 января 2006" }}</p>
                 </div>
             </div>

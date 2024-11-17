@@ -39,7 +39,7 @@ func GetFeedPosts(w http.ResponseWriter, r *http.Request) {
 	}
 	feed, err := db.GetFeedByID(r.Context(), feedID)
 	if err != nil {
-		utils.RespondWithError(w, http.StatusBadRequest, fmt.Sprintf("Fail parse feed id: %v", err))
+		utils.RespondWithError(w, http.StatusBadRequest, fmt.Sprintf("Fail parse feed: %v", err))
 		return
 	}
 
@@ -53,8 +53,6 @@ func GetFeedPosts(w http.ResponseWriter, r *http.Request) {
 	}
 
 	data := map[string]interface{}{
-		"Header": "Ахуеть, работает!",
-		"Head":   "Wow. HEAD!",
 		"Posts":  posts,
 		"Feed":   feed,
 	}
