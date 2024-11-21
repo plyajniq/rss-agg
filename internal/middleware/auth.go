@@ -10,7 +10,7 @@ import (
 	"rss-agg/internal/utils"
 )
 
-// check authentication for request
+// check authentication for access to endpoints
 func BasicAuth(db *database.Queries) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -30,5 +30,3 @@ func BasicAuth(db *database.Queries) func(http.Handler) http.Handler {
 		})
 	}
 }
-
-

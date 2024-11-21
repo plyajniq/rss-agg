@@ -13,6 +13,7 @@ import (
 	"github.com/google/uuid"
 )
 
+// start scraping in separate goroutine
 func StartScraping(
 	db *database.Queries,
 	concurrency int,
@@ -26,7 +27,7 @@ func StartScraping(
 			int32(concurrency),
 		)
 		if err != nil {
-			log.Printf("error to fetching: %v", err)
+			log.Printf("Error to fetching: %v", err)
 			continue
 		}
 
@@ -43,19 +44,20 @@ func StartScraping(
 	}
 }
 
+// scrape single feed
 func scrapeFeed(db *database.Queries, wg *sync.WaitGroup, feed database.Feed) {
 	// -1 to counter of goroutines to wait
 	defer wg.Done()
 
 	_, err := db.MarkFeedAsFetched(context.Background(), feed.ID)
 	if err != nil {
-		log.Printf("error to fetching: %v", err)
+		log.Printf("Error to mark feed as fetched: %v", err)
 		return
 	}
 
 	rssFeed, err := ParseUrlToFeed(feed.Url)
 	if err != nil {
-		log.Printf("Fail to get RSSFeed from URL: %v", err)
+		log.Printf("Fail to get RSSFeed entity from URL: %v", err)
 		return
 	}
 
@@ -86,7 +88,7 @@ func scrapeFeed(db *database.Queries, wg *sync.WaitGroup, feed database.Feed) {
 			if strings.Contains(err.Error(), "duplicate key") {
 				continue
 			}
-			log.Printf("Fail to create post: %v", err)
+			log.Printf("Fail to create post in db: %v", err)
 		}
 	}
 	log.Printf("Feed %s updated with %v posts", feed.Name, len(rssFeed.Channel.Item))

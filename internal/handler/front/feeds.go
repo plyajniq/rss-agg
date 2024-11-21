@@ -10,6 +10,7 @@ import (
 	"text/template"
 )
 
+// load `/feeds` template
 func LoadFeedsTempalate() *template.Template {
 	base_tmpt := filepath.Join("..", "templates", "base.html")
 	feeds_tmpt := filepath.Join("..", "templates", "content", "feeds.html")
@@ -19,11 +20,12 @@ func LoadFeedsTempalate() *template.Template {
 
 	tmpl, err := template.ParseFiles(base_tmpt, feeds_tmpt, head_tmpt, header_tmpt, footer_tmpt)
 	if err != nil {
-		log.Fatal("Ошибка при загрузке шаблонов:", err)
+		log.Fatal("Fail to load templates:", err)
 	}
 	return tmpl
 }
 
+// get top feeds to public user
 func GetTopFeeds(w http.ResponseWriter, r *http.Request) {
 	db := ctx.GetDBContext(r)
 
@@ -34,19 +36,13 @@ func GetTopFeeds(w http.ResponseWriter, r *http.Request) {
 	}
 	tmpl := LoadFeedsTempalate()
 
-	if err != nil {
-		log.Fatal("Ошибка при загрузке шаблонов:", err)
-	}
-
 	data := map[string]interface{}{
-		"Header":  "Ахуеть, работает!",
-		"Head":   "Что-то тут!",
-		"Special": "Специально тут!",
+		"Head":   "Доступные ленты",
 		"Feeds":   feeds,
 	}
 	err = tmpl.ExecuteTemplate(w, "base.html", data)
 	if err != nil {
-		log.Println("Ошибка при рендеринге шаблона:", err)
-		http.Error(w, "Ошибка сервера", http.StatusInternalServerError)
+		log.Println("Fail to render template:", err)
+		http.Error(w, "Server error", http.StatusInternalServerError)
 	}
 }

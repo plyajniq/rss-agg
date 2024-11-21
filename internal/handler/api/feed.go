@@ -48,6 +48,7 @@ func CreateFeed(w http.ResponseWriter, r *http.Request) {
 	utils.RespondWithJSON(w, http.StatusCreated, utils.DatabaseFeedToFeed(feed))
 }
 
+// get all feeds
 func GetAllFeeds(w http.ResponseWriter, r *http.Request) {
 	db := ctx.GetDBContext(r)
 	feeds, err := db.GetFeeds(r.Context())
@@ -57,5 +58,5 @@ func GetAllFeeds(w http.ResponseWriter, r *http.Request) {
 	}
 
 	utils.RespondWithJSON(w, http.StatusOK, utils.DatabaseFeedsToFeeds(feeds))
-	
+
 }

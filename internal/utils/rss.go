@@ -7,6 +7,7 @@ import (
 	"time"
 )
 
+// rss chanel structure
 type RSSFeed struct {
 	Channel struct {
 		Title       string    `xml:"title"`
@@ -17,13 +18,15 @@ type RSSFeed struct {
 	} `xml:"channel"`
 }
 
+// rss chanel item structure
 type RSSItem struct {
 	Title       string `xml:"title"`
 	Link        string `xml:"link"`
 	Description string `xml:"description"`
 	PubDate     string `xml:"pubDate"`
 }
-// unmarshal xml from URL to RSSFeed
+
+// unmarshal xml from URL to RSSFeed structure
 func ParseUrlToFeed(url string) (RSSFeed, error) {
 	httpClient := http.Client{
 		Timeout: 10 * time.Second,

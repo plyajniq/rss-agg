@@ -14,7 +14,7 @@ import (
 	"github.com/google/uuid"
 )
 
-// handler to create a new feed
+// handler to create following
 func CreateFeedFollow(
 	w http.ResponseWriter,
 	r *http.Request,
@@ -63,6 +63,7 @@ func GetFeedFollows(w http.ResponseWriter, r *http.Request) {
 	utils.RespondWithJSON(w, http.StatusOK, utils.DatabaseFeedFollowsToFeedFollows(feedFollows))
 }
 
+// handler to delete following (unfollow)
 func DeleteFeedFollows(w http.ResponseWriter, r *http.Request) {
 	user := ctx.GetUserContext(r)
 	db := ctx.GetDBContext(r)

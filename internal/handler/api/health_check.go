@@ -12,6 +12,7 @@ type HealthResponse struct {
 	CurrentTime string
 }
 
+// check server status
 func HealthCheck(w http.ResponseWriter, r *http.Request) {
 	utils.RespondWithJSON(
 		w,

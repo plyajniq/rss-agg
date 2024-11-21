@@ -6,6 +6,7 @@ import (
 	"rss-agg/internal/utils"
 )
 
+// Error handler
 func Error(w http.ResponseWriter, r *http.Request) {
 	utils.RespondWithError(w, http.StatusBadRequest, "Request goes wrong")
 }

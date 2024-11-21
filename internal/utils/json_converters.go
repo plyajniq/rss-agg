@@ -8,6 +8,7 @@ import (
 	"github.com/google/uuid"
 )
 
+// user entity to response with snake_case
 type User struct {
 	ID        uuid.UUID `json:"id"`
 	CreatedAt time.Time `json:"created_at"`
@@ -16,6 +17,7 @@ type User struct {
 	ApiKey    string    `json:"api_key"`
 }
 
+// convert user db entity to user response entity
 func DatabaseUserToUser(dbUser database.User) User {
 	return User{
 		ID:        dbUser.ID,
@@ -26,6 +28,7 @@ func DatabaseUserToUser(dbUser database.User) User {
 	}
 }
 
+// feed entity to response with snake_case
 type Feed struct {
 	ID        uuid.UUID `json:"id"`
 	CreatedAt time.Time `json:"created_at"`
@@ -35,6 +38,7 @@ type Feed struct {
 	UserID    uuid.UUID `json:"user_id"`
 }
 
+// convert feed db entity to feed response entity
 func DatabaseFeedToFeed(dbFeed database.Feed) Feed {
 	return Feed{
 		ID:        dbFeed.ID,
@@ -46,6 +50,7 @@ func DatabaseFeedToFeed(dbFeed database.Feed) Feed {
 	}
 }
 
+// convert slice of db feeds to slice to response
 func DatabaseFeedsToFeeds(dbFeeds []database.Feed) []Feed {
 	feeds := []Feed{}
 
@@ -55,6 +60,7 @@ func DatabaseFeedsToFeeds(dbFeeds []database.Feed) []Feed {
 	return feeds
 }
 
+// feedfollow entity to response with snake_case
 type FeedFollow struct {
 	ID        uuid.UUID `json:"id"`
 	CreatedAt time.Time `json:"created_at"`
@@ -63,6 +69,7 @@ type FeedFollow struct {
 	FeedID    uuid.UUID `json:"feed_id"`
 }
 
+// convert feedfollow db entity to feedfollow response entity
 func DatabaseFeedFollowToFeedFollow(dbFeedFollow database.FeedFollow) FeedFollow {
 	return FeedFollow{
 		ID:        dbFeedFollow.ID,
@@ -73,6 +80,7 @@ func DatabaseFeedFollowToFeedFollow(dbFeedFollow database.FeedFollow) FeedFollow
 	}
 }
 
+// convert slice of db feedfollows to slice to response
 func DatabaseFeedFollowsToFeedFollows(dbFeedFollows []database.FeedFollow) []FeedFollow {
 	feedFollows := []FeedFollow{}
 
@@ -82,6 +90,7 @@ func DatabaseFeedFollowsToFeedFollows(dbFeedFollows []database.FeedFollow) []Fee
 	return feedFollows
 }
 
+// post entity to response with snake_case
 type Post struct {
 	ID          uuid.UUID `json:"id"`
 	CreatedAt   time.Time `json:"created_at"`
@@ -93,6 +102,7 @@ type Post struct {
 	FeedID      uuid.UUID `json:"feed_id"`
 }
 
+// convert post db entity to post response entity
 func DatabasePostToPost(dbPost database.Post) Post {
 	var description *string
 	if dbPost.Description.Valid {
@@ -110,6 +120,7 @@ func DatabasePostToPost(dbPost database.Post) Post {
 	}
 }
 
+// convert slice of db posts to slice to response
 func DatabasePostsToPosts(dbPosts []database.Post) []Post {
 	posts := []Post{}
 

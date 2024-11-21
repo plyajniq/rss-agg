@@ -14,6 +14,7 @@ import (
 	"github.com/google/uuid"
 )
 
+// load `/posts` template
 func LoadPostsTemplate() *template.Template {
 	base_tmpt := filepath.Join("..", "templates", "base.html")
 	posts_tmpt := filepath.Join("..", "templates", "content", "posts.html")
@@ -23,23 +24,24 @@ func LoadPostsTemplate() *template.Template {
 
 	tmpl, err := template.ParseFiles(base_tmpt, posts_tmpt, head_tmpt, header_tmpt, footer_tmpt)
 	if err != nil {
-		log.Fatal("Ошибка при загрузке шаблонов:", err)
+		log.Fatal("Fail to load templates:", err)
 	}
 	return tmpl
 }
 
+// get posts by feed
 func GetFeedPosts(w http.ResponseWriter, r *http.Request) {
 	db := ctx.GetDBContext(r)
 
 	feedIDStr := chi.URLParam(r, "feedID")
 	feedID, err := uuid.Parse(feedIDStr)
 	if err != nil {
-		utils.RespondWithError(w, http.StatusBadRequest, fmt.Sprintf("Fail parse feed id: %v", err))
+		utils.RespondWithError(w, http.StatusBadRequest, fmt.Sprintf("Fail to parse feedID from URL: %v", err))
 		return
 	}
 	feed, err := db.GetFeedByID(r.Context(), feedID)
 	if err != nil {
-		utils.RespondWithError(w, http.StatusBadRequest, fmt.Sprintf("Fail parse feed: %v", err))
+		utils.RespondWithError(w, http.StatusBadRequest, fmt.Sprintf("Fail to get feed by id: %v", err))
 		return
 	}
 
@@ -53,6 +55,7 @@ func GetFeedPosts(w http.ResponseWriter, r *http.Request) {
 	}
 
 	data := map[string]interface{}{
+		"Head":   feed.Name,
 		"Posts":  posts,
 		"Feed":   feed,
 	}
@@ -60,7 +63,7 @@ func GetFeedPosts(w http.ResponseWriter, r *http.Request) {
 	tmpl := LoadPostsTemplate()
 	err = tmpl.ExecuteTemplate(w, "base.html", data)
 	if err != nil {
-		log.Println("Ошибка при рендеринге шаблона:", err)
-		http.Error(w, "Ошибка сервера", http.StatusInternalServerError)
+		log.Println("Fail to render template:", err)
+		http.Error(w, "Server error", http.StatusInternalServerError)
 	}
 }
