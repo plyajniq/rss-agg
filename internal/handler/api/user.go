@@ -13,17 +13,24 @@ import (
 	"github.com/google/uuid"
 )
 
-// handler to create a new user
+type NewUser struct {
+	Name string `json:"name"`
+}
+
+// @Summary Create user
+// @Description to create a new user's APIKey
+// @Tags users
+// @Accept json
+// @Produce json
+// @Param name body NewUser true "Name"
+// @Success 201 {object} utils.User
+// @Router /users [post]
 func CreateUser(w http.ResponseWriter, r *http.Request) {
 	db := ctx.GetDBContext(r)
 
-	type parameters struct {
-		Name string `json:"name"`
-	}
-
 	decoder := json.NewDecoder(r.Body)
 
-	params := parameters{}
+	params := NewUser{}
 
 	err := decoder.Decode(&params)
 	if err != nil {

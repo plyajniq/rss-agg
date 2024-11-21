@@ -17,10 +17,18 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/cors"
 	"github.com/joho/godotenv"
+	httpSwagger "github.com/swaggo/http-swagger"
+
+	_ "rss-agg/docs"
 
 	_ "github.com/lib/pq"
 )
 
+//	@title			RSS AGG API
+//	@version		1.0
+//	@description	RSS aggregator with Chi in Go.
+//	@host			localhost:8080
+//	@BasePath		/api/v1
 func main() {
 	fmt.Println("Running...")
 
@@ -58,8 +66,10 @@ func main() {
 	mainRouter.Use(middleware.DBConn(dbConn))
 
 	mainRouter.Handle("/static/*", http.StripPrefix("/static/", http.FileServer(http.Dir("../static"))))
+	mainRouter.Get("/swagger/*", httpSwagger.WrapHandler)
 
 	apiRouter := chi.NewRouter()
+
 	v1ApiRouter := chi.NewRouter()
 	// public group
 	v1ApiRouter.Group(func(public chi.Router) {

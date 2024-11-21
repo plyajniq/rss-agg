@@ -26,6 +26,7 @@ func LoadAboutTemplate() *template.Template {
 func GetAbout(w http.ResponseWriter, r *http.Request) {
 	tmpl := LoadAboutTemplate()
 	data := map[string]interface{}{
+		"About": "О сайте!",
 		"Head":  "Он работает!",
 	}
 	err := tmpl.ExecuteTemplate(w, "base.html", data)

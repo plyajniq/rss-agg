@@ -1,0 +1,50 @@
+basePath: /api/v1
+definitions:
+  api.NewUser:
+    properties:
+      name:
+        type: string
+    type: object
+  utils.User:
+    properties:
+      api_key:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      updated_at:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: RSS aggregator with Chi in Go.
+  title: RSS AGG API
+  version: "1.0"
+paths:
+  /users:
+    post:
+      consumes:
+      - application/json
+      description: to create a new user's APIKey
+      parameters:
+      - description: Name
+        in: body
+        name: name
+        required: true
+        schema:
+          $ref: '#/definitions/api.NewUser'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/utils.User'
+      summary: Create user
+      tags:
+      - users
+swagger: "2.0"
