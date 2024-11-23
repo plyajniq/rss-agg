@@ -12,7 +12,12 @@ type HealthResponse struct {
 	CurrentTime string
 }
 
-// check server status
+// @Summary Health Check
+// @Description to check server status
+// @Tags service support
+// @Produce json
+// @Success 200 {object} HealthResponse
+// @Router /healthz [get]
 func HealthCheck(w http.ResponseWriter, r *http.Request) {
 	utils.RespondWithJSON(
 		w,

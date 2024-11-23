@@ -1,8 +1,79 @@
 basePath: /api/v1
 definitions:
+  api.HealthResponse:
+    properties:
+      currentTime:
+        type: string
+      status:
+        type: string
+    type: object
+  api.NewFeed:
+    properties:
+      name:
+        type: string
+      url:
+        type: string
+    type: object
+  api.NewFeedFollow:
+    properties:
+      feed_id:
+        type: string
+    type: object
   api.NewUser:
     properties:
       name:
+        type: string
+    type: object
+  utils.ErrResponse:
+    properties:
+      error:
+        type: string
+    type: object
+  utils.Feed:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      updated_at:
+        type: string
+      url:
+        type: string
+      user_id:
+        type: string
+    type: object
+  utils.FeedFollow:
+    properties:
+      created_at:
+        type: string
+      feed_id:
+        type: string
+      id:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: string
+    type: object
+  utils.Post:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      feed_id:
+        type: string
+      id:
+        type: string
+      published_at:
+        type: string
+      updated_at:
+        type: string
+      url:
+        type: string
+      user_id:
         type: string
     type: object
   utils.User:
@@ -25,7 +96,226 @@ info:
   title: RSS AGG API
   version: "1.0"
 paths:
+  /feed_follows:
+    get:
+      description: to get feed follows
+      parameters:
+      - description: APIKey
+        example: ApiKey $token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/utils.FeedFollow'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get Feed Follows
+      tags:
+      - feed follows
+    post:
+      consumes:
+      - application/json
+      description: to create a new feed follow
+      parameters:
+      - description: APIKey
+        example: ApiKey $token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: FeedID
+        in: body
+        name: feed_id
+        required: true
+        schema:
+          $ref: '#/definitions/api.NewFeedFollow'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/utils.FeedFollow'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create Feed Follow
+      tags:
+      - feed follows
+  /feed_follows/{feed_follow_id}:
+    delete:
+      description: to delete feed follow (unfollow)
+      parameters:
+      - description: APIKey
+        example: ApiKey $token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Feed Follow ID
+        in: path
+        name: feed_follow_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete Feed Follow
+      tags:
+      - feed follows
+  /feeds:
+    get:
+      description: to get feeds
+      parameters:
+      - description: APIKey
+        example: ApiKey $token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/utils.Post'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get Feeds
+      tags:
+      - feeds
+    post:
+      consumes:
+      - application/json
+      description: to create a new feed
+      parameters:
+      - description: APIKey
+        example: ApiKey $token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Name
+        in: body
+        name: name
+        required: true
+        schema:
+          $ref: '#/definitions/api.NewFeed'
+      - description: URL
+        in: body
+        name: url
+        required: true
+        schema:
+          $ref: '#/definitions/api.NewFeed'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/utils.Feed'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create Feed
+      tags:
+      - feeds
+  /healthz:
+    get:
+      description: to check server status
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.HealthResponse'
+      summary: Health Check
+      tags:
+      - service support
+  /posts:
+    get:
+      description: to get posts from followed feeds
+      parameters:
+      - description: APIKey
+        example: ApiKey $token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/utils.Post'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get Posts For User
+      tags:
+      - posts
   /users:
+    get:
+      description: to get own user info
+      parameters:
+      - description: APIKey
+        example: ApiKey $token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.User'
+      security:
+      - ApiKeyAuth: []
+      summary: Get Own User Info
+      tags:
+      - users
     post:
       consumes:
       - application/json
@@ -44,7 +334,7 @@ paths:
           description: Created
           schema:
             $ref: '#/definitions/utils.User'
-      summary: Create user
+      summary: Create User
       tags:
       - users
 swagger: "2.0"

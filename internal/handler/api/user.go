@@ -17,7 +17,7 @@ type NewUser struct {
 	Name string `json:"name"`
 }
 
-// @Summary Create user
+// @Summary Create User
 // @Description to create a new user's APIKey
 // @Tags users
 // @Accept json
@@ -52,13 +52,28 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	utils.RespondWithJSON(w, http.StatusCreated, utils.DatabaseUserToUser(newUser))
 }
 
-// hander to get existing user by apy key
+// @Summary Get Own User Info
+// @Description to get own user info
+// @Tags users
+// @Security ApiKeyAuth
+// @Produce json
+// @Param Authorization header string true "APIKey" example(ApiKey $token)
+// @Success 200 {object} utils.User
+// @Router /users [get]
 func GetMyUserData(w http.ResponseWriter, r *http.Request) {
 	user := ctx.GetUserContext(r)
 	utils.RespondWithJSON(w, http.StatusOK, utils.DatabaseUserToUser(user))
 }
 
-// hander to get existing user by apy key
+// @Summary Get Posts For User
+// @Description to get posts from followed feeds
+// @Tags posts
+// @Security ApiKeyAuth
+// @Produce json
+// @Param Authorization header string true "APIKey" example(ApiKey $token)
+// @Success 200 {array} utils.Post
+// @Failure 400 {object} utils.ErrResponse
+// @Router /posts [get]
 func GetPostsForUser(w http.ResponseWriter, r *http.Request) {
 	user := ctx.GetUserContext(r)
 	db := ctx.GetDBContext(r)

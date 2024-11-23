@@ -14,7 +14,21 @@ import (
 	"github.com/google/uuid"
 )
 
-// handler to create following
+type NewFeedFollow struct {
+	FeedID uuid.UUID `json:"feed_id"`
+}
+
+// @Summary Create Feed Follow
+// @Description to create a new feed follow
+// @Tags feed follows
+// @Accept json
+// @Produce json
+// @Security ApiKeyAuth
+// @Param Authorization header string true "APIKey" example(ApiKey $token)
+// @Param feed_id body NewFeedFollow true "FeedID"
+// @Success 201 {object} utils.FeedFollow
+// @Failure 400 {object} utils.ErrResponse
+// @Router /feed_follows [post]
 func CreateFeedFollow(
 	w http.ResponseWriter,
 	r *http.Request,
@@ -22,12 +36,8 @@ func CreateFeedFollow(
 	user := ctx.GetUserContext(r)
 	db := ctx.GetDBContext(r)
 
-	type parameters struct {
-		FeedID uuid.UUID `json:"feed_id"`
-	}
-
 	decoder := json.NewDecoder(r.Body)
-	params := parameters{}
+	params := NewFeedFollow{}
 
 	err := decoder.Decode(&params)
 	if err != nil {
@@ -50,6 +60,15 @@ func CreateFeedFollow(
 	utils.RespondWithJSON(w, http.StatusCreated, utils.DatabaseFeedFollowToFeedFollow(feedFollow))
 }
 
+// @Summary Get Feed Follows
+// @Description to get feed follows
+// @Tags feed follows
+// @Security ApiKeyAuth
+// @Produce json
+// @Param Authorization header string true "APIKey" example(ApiKey $token)
+// @Success 200 {array} utils.FeedFollow
+// @Failure 400 {object} utils.ErrResponse
+// @Router /feed_follows [get]
 func GetFeedFollows(w http.ResponseWriter, r *http.Request) {
 	user := ctx.GetUserContext(r)
 	db := ctx.GetDBContext(r)
@@ -63,7 +82,16 @@ func GetFeedFollows(w http.ResponseWriter, r *http.Request) {
 	utils.RespondWithJSON(w, http.StatusOK, utils.DatabaseFeedFollowsToFeedFollows(feedFollows))
 }
 
-// handler to delete following (unfollow)
+// @Summary Delete Feed Follow
+// @Description to delete feed follow (unfollow)
+// @Tags feed follows
+// @Security ApiKeyAuth
+// @Produce json
+// @Param Authorization header string true "APIKey" example(ApiKey $token)
+// @Param feed_follow_id path string true "Feed Follow ID"
+// @Success 204
+// @Failure 400 {object} utils.ErrResponse
+// @Router /feed_follows/{feed_follow_id} [delete]
 func DeleteFeedFollows(w http.ResponseWriter, r *http.Request) {
 	user := ctx.GetUserContext(r)
 	db := ctx.GetDBContext(r)

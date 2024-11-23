@@ -13,18 +13,29 @@ import (
 	"github.com/google/uuid"
 )
 
-// handler to create a new feed
+type NewFeed struct {
+	Name string `json:"name"`
+	Url  string `json:"url"`
+}
+
+// @Summary Create Feed
+// @Description to create a new feed
+// @Tags feeds
+// @Accept json
+// @Produce json
+// @Security ApiKeyAuth
+// @Param Authorization header string true "APIKey" example(ApiKey $token)
+// @Param name body NewFeed true "Name"
+// @Param url body NewFeed true "URL"
+// @Success 201 {object} utils.Feed
+// @Failure 400 {object} utils.ErrResponse
+// @Router /feeds [post]
 func CreateFeed(w http.ResponseWriter, r *http.Request) {
 	user := ctx.GetUserContext(r)
 	db := ctx.GetDBContext(r)
 
-	type parameters struct {
-		Name string `json:"name"`
-		Url  string `json:"url"`
-	}
-
 	decoder := json.NewDecoder(r.Body)
-	params := parameters{}
+	params := NewFeed{}
 
 	err := decoder.Decode(&params)
 	if err != nil {
@@ -48,7 +59,15 @@ func CreateFeed(w http.ResponseWriter, r *http.Request) {
 	utils.RespondWithJSON(w, http.StatusCreated, utils.DatabaseFeedToFeed(feed))
 }
 
-// get all feeds
+// @Summary Get Feeds
+// @Description to get feeds
+// @Tags feeds
+// @Security ApiKeyAuth
+// @Produce json
+// @Param Authorization header string true "APIKey" example(ApiKey $token)
+// @Success 200 {array} utils.Post
+// @Failure 400 {object} utils.ErrResponse
+// @Router /feeds [get]
 func GetAllFeeds(w http.ResponseWriter, r *http.Request) {
 	db := ctx.GetDBContext(r)
 	feeds, err := db.GetFeeds(r.Context())
