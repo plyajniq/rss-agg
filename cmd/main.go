@@ -33,15 +33,14 @@ func main() {
 	fmt.Println("Running...")
 
 	// load env data
-	godotenv.Load("../.env")
-	port := os.Getenv("PORT")
+	godotenv.Load("./.env")
 
+	port := os.Getenv("PORT")
 	if port == "" {
 		log.Fatal("PORT is empty")
 	}
 
 	host := os.Getenv("HOST")
-
 	if host == "" {
 		log.Fatal("HOST is empty")
 	}
