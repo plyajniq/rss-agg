@@ -4,7 +4,7 @@ docs:
 	swag init -g cmd/main.go
 
 build: docs
-	go build -o app cmd/main.go
+	go build -o bin/app cmd/main.go
 
 start: build
-	./app
+	./bin/app
