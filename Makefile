@@ -1,10 +1,10 @@
 .PHONY: docs build start
 
 docs:
-	swag init -g cmd/main.go
+	swag init -g cmd/main.go -o ./docs
 
 build: docs
-	go build -o bin/app cmd/main.go
+	go build -o bin/rssagg cmd/main.go
 
 start: build
-	./bin/app
+	./bin/rssagg
