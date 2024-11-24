@@ -40,6 +40,12 @@ func main() {
 		log.Fatal("PORT is empty")
 	}
 
+	host := os.Getenv("HOST")
+
+	if host == "" {
+		log.Fatal("HOST is empty")
+	}
+
 	dbURL := os.Getenv("DB_URL")
 	if dbURL == "" {
 		log.Fatal("dbURL is empty")
@@ -104,7 +110,7 @@ func main() {
 
 	svr := &http.Server{
 		Handler: mainRouter,
-		Addr:    ":" + port,
+		Addr:    host + ":" + port,
 	}
 
 	log.Printf("Start serving on: %v", svr.Addr)
@@ -114,5 +120,6 @@ func main() {
 		log.Fatal(err)
 	}
 
+	fmt.Println("HOST:", host)
 	fmt.Println("PORT:", port)
 }
