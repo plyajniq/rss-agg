@@ -29,9 +29,8 @@ RUN apk --no-cache add ca-certificates
 # Копируем скомпилированный бинарник из этапа сборки
 COPY --from=builder /app/bin/rssagg /app/rssagg
 
-COPY --from=builder /app/docs /app/docs
-
 COPY --from=builder /app/.env /app/.env
 
+WORKDIR /app
 # Устанавливаем команду для запуска приложения
 CMD ["/app/rssagg"]
