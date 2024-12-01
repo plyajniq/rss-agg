@@ -16,11 +16,11 @@ import (
 
 // load `/posts` template
 func LoadPostsTemplate() *template.Template {
-	base_tmpt := filepath.Join("..", "templates", "base.html")
-	posts_tmpt := filepath.Join("..", "templates", "content", "posts.html")
-	head_tmpt := filepath.Join("..", "templates", "core", "head.html")
-	header_tmpt := filepath.Join("..", "templates", "core", "header.html")
-	footer_tmpt := filepath.Join("..", "templates", "core", "footer.html")
+	base_tmpt := filepath.Join(".", "templates", "base.html")
+	posts_tmpt := filepath.Join(".", "templates", "content", "posts.html")
+	head_tmpt := filepath.Join(".", "templates", "core", "head.html")
+	header_tmpt := filepath.Join(".", "templates", "core", "header.html")
+	footer_tmpt := filepath.Join(".", "templates", "core", "footer.html")
 
 	tmpl, err := template.ParseFiles(base_tmpt, posts_tmpt, head_tmpt, header_tmpt, footer_tmpt)
 	if err != nil {

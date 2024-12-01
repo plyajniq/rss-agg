@@ -12,11 +12,11 @@ import (
 
 // load `/feeds` template
 func LoadFeedsTempalate() *template.Template {
-	base_tmpt := filepath.Join("..", "templates", "base.html")
-	feeds_tmpt := filepath.Join("..", "templates", "content", "feeds.html")
-	head_tmpt := filepath.Join("..", "templates", "core", "head.html")
-	header_tmpt := filepath.Join("..", "templates", "core", "header.html")
-	footer_tmpt := filepath.Join("..", "templates", "core", "footer.html")
+	base_tmpt := filepath.Join(".", "templates", "base.html")
+	feeds_tmpt := filepath.Join(".", "templates", "content", "feeds.html")
+	head_tmpt := filepath.Join(".", "templates", "core", "head.html")
+	header_tmpt := filepath.Join(".", "templates", "core", "header.html")
+	footer_tmpt := filepath.Join(".", "templates", "core", "footer.html")
 
 	tmpl, err := template.ParseFiles(base_tmpt, feeds_tmpt, head_tmpt, header_tmpt, footer_tmpt)
 	if err != nil {

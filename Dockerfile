@@ -13,24 +13,33 @@ COPY go.mod go.sum ./
 
 # Загружаем зависимости
 RUN go mod tidy
-
 # Копируем весь исходный код
 COPY . .
 
-# Выполняем сборку с помощью make
-RUN make build
+RUN make build-linux
 
 # Финальный образ для запуска
-FROM alpine:3.18
+FROM golang:1.23-alpine
 
 # Устанавливаем сертификаты для работы с HTTPS
-RUN apk --no-cache add ca-certificates
+RUN apk --no-cache add ca-certificates && \
+    go install github.com/pressly/goose/v3/cmd/goose@latest && \
+    # Устанавливаем curl для тестирования
+    apk add curl
 
-# Копируем скомпилированный бинарник из этапа сборки
+
 COPY --from=builder /app/bin/rssagg /app/rssagg
 
 COPY --from=builder /app/.env /app/.env
 
+COPY --from=builder /app/sql/schema /app/sql/schema
+
+COPY --from=builder /app/static /app/static
+
+COPY --from=builder /app/templates /app/templates
+
+EXPOSE 8080
+
 WORKDIR /app
-# Устанавливаем команду для запуска приложения
+
 CMD ["/app/rssagg"]

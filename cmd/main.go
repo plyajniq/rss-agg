@@ -24,11 +24,11 @@ import (
 	_ "github.com/lib/pq"
 )
 
-//	@title			RSS AGG API
-//	@version		1.0
-//	@description	RSS aggregator with Chi in Go.
-//	@host			localhost:8080
-//	@BasePath		/api/v1
+// @title			RSS AGG API
+// @version		1.0
+// @description	RSS aggregator with Chi in Go.
+// @host			localhost:8080
+// @BasePath		/api/v1
 func main() {
 	fmt.Println("Running...")
 
@@ -70,7 +70,7 @@ func main() {
 	}))
 	mainRouter.Use(middleware.DBConn(dbConn))
 
-	mainRouter.Handle("/static/*", http.StripPrefix("/static/", http.FileServer(http.Dir("../static"))))
+	mainRouter.Handle("/static/*", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 	mainRouter.Get("/swagger/*", httpSwagger.WrapHandler)
 
 	apiRouter := chi.NewRouter()
@@ -109,7 +109,7 @@ func main() {
 
 	svr := &http.Server{
 		Handler: mainRouter,
-		Addr:    host + ":" + port,
+		Addr:    ":" + port,
 	}
 
 	log.Printf("Start serving on: %v", svr.Addr)

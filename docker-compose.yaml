@@ -1,0 +1,42 @@
+services:
+  db:
+    image: postgres:16
+    container_name: rssagg_db
+    environment:
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+      POSTGRES_DB: ${PG_DB_NAME}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready --username ${PG_USER} --dbname ${PG_DB_NAME}"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    expose:
+      - "5432"
+    env_file:
+      - .env
+  # Сервис для приложения на Go
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    container_name: rssagg_app
+    environment:
+      DB_URL: ${DB_URL}
+    command: sh -c 'echo ${DB_URL} && go install github.com/pressly/goose/v3/cmd/goose@latest && goose -dir ./sql/schema postgres ${DB_URL} up && /app/rssagg'
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env
+
+
+volumes:
+  db_data:
