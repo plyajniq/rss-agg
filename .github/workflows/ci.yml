@@ -65,6 +65,7 @@ jobs:
       - name: Deploy to server
         run: |
           ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP << 'EOF'
+            mkdir -p ~/rssagg
             cd ~/rssagg
             docker-compose pull
             docker-compose down
