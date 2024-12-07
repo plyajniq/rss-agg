@@ -61,7 +61,7 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_KEY }}
 
-      # Обновляем контейнеры на удаленном сервереe
+      # Обновляем контейнеры на удаленном сервере
       - name: Deploy to server
         run: |
           ssh -v -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP << 'EOF'
