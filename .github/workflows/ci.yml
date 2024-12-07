@@ -28,9 +28,9 @@ jobs:
 
       # Расшифровываем .env
       - name: Decrypt .env file
-          run: |
-            echo "${{ secrets.ENV_FILE }}" > .env
-            
+        run: |
+          echo "${{ secrets.ENV_FILE }}" > .env
+
       # Логинимся в Docker Hub
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
