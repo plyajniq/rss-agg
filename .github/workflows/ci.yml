@@ -55,7 +55,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # Настройка SSH для деплоя на серверg
+      # Настройка SSH для деплоя на сервер
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.3
         with:
