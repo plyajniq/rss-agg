@@ -64,9 +64,9 @@ jobs:
       # Обновляем контейнеры на удаленном сервере
       - name: Deploy to server
         with:
-            host: ${{ secrets.SERVER_IP }}
-            username: ${{ secrets.USER_NAME }}
-            key: ${{ secrets.SSH_KEY }}
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.USER_NAME }}
+          key: ${{ secrets.SSH_KEY }}
             script: |
                 mkdir -p ~/rssagg
                 cd ~/rssagg
