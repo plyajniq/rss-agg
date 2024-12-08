@@ -47,6 +47,7 @@ jobs:
       - name: Push Docker image to Docker Hub
         uses: docker/build-push-action@v2
         with:
+          context: .
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:latest
 
@@ -71,8 +72,6 @@ jobs:
           username: ${{ secrets.USER_NAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            mkdir -p ~/rssagg
-            cd ~/rssagg
             touch .env
             echo ${{ secrets.ENV_FILE }} >> .env
             docker-compose pull
