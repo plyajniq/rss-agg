@@ -61,7 +61,7 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_KEY }}
 
-      # Обновляем контейнеры на удаленном серверe
+      # Обновляем контейнеры на удаленном серверer
       - name: Deploy to server
         uses: appleboy/ssh-action@master
         with:
