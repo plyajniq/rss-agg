@@ -72,6 +72,7 @@ jobs:
           username: ${{ secrets.USER_NAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
+            cd ~/rss-agg
             touch .env
             echo ${{ secrets.ENV_FILE }} >> .env
             git pull
