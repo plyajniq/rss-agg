@@ -75,6 +75,14 @@ jobs:
             cd ~/rss-agg
             touch .env
             git pull
-            echo ${{ secrets.ENV_FILE }} >> .env
+            echo HOST=${{ secrets.APP_HOST }} >> .env
+            echo PORT=${{ secrets.APP_PORT }} >> .env
+            echo PG_SSL_MODE=${{ secrets.PG_SSL_MODE }} >> .env
+            echo PG_USER=${{ secrets.PG_USER }} >> .env
+            echo PG_PASSWORD=${{ secrets.PG_PASSWORD }} >> .env
+            echo PG_DB_NAME=${{ secrets.PG_DB_NAME }} >> .env
+            echo PG_PORT=${{ secrets.PG_PORT }} >> .env
+            echo DB_HOST=${{ secrets.DB_HOST }} >> .env
+            echo DB_URL=${{ secrets.DB_URL }} >> .env
             docker-compose down
             docker-compose up -d --build
