@@ -74,6 +74,6 @@ jobs:
           script: |
             touch .env
             echo ${{ secrets.ENV_FILE }} >> .env
-            docker-compose pull
+            git pull
             docker-compose down
             docker-compose up -d --build
