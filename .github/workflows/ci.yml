@@ -41,12 +41,14 @@ jobs:
       # Строим Docker образ
       - name: Build Docker image
         run: |
-          docker build -t $DOCKER_HUB_USERNAME/$DOCKER_IMAGE_NAME:$GITHUB_SHA .
+          docker build -t $DOCKER_HUB_USERNAME/$DOCKER_IMAGE_NAME:latest .
 
       # Пушим образ в Docker Hub
       - name: Push Docker image to Docker Hub
-        run: |
-          docker push $DOCKER_HUB_USERNAME/$DOCKER_IMAGE_NAME:$GITHUB_SHA
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:latest
 
   deploy:
     runs-on: ubuntu-latest
