@@ -61,18 +61,16 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_KEY }}
 
-      - name: Add SSH key
-        run: |
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
-          chmod 700 ~/.ssh/id_ed25519
-
       # Обновляем контейнеры на удаленном сервере
       - name: Deploy to server
-        run: |
-          ssh -i ~/.ssh/id_ed25519 -vv -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP << 'EOF'
-            mkdir -p ~/rssagg
-            cd ~/rssagg
-            docker-compose pull
-            docker-compose down
-            docker-compose up -d
-          EOF
+        with:
+            host: ${{ secrets.SERVER_IP }}
+            username: ${{ secrets.USER_NAME }}
+            key: ${{ secrets.SSH_KEY }}
+            script: |
+                mkdir -p ~/rssagg
+                cd ~/rssagg
+                docker-compose pull
+                docker-compose down
+                docker-compose up -d
+              EOF
