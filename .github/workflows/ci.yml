@@ -73,6 +73,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd ~/rss-agg
+            rm .env
             touch .env
             git pull
             echo HOST=${{ secrets.APP_HOST }} >> .env
