@@ -24,7 +24,7 @@ services:
       - .env
   # Сервис для приложения на Go
   app:
-    image: fedoska/rssagg:latest
+    build: .
     restart: always
     ports:
       - "8080:8080"

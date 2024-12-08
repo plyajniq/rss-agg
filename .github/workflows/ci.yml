@@ -74,7 +74,7 @@ jobs:
           script: |
             cd ~/rss-agg
             touch .env
-            echo ${{ secrets.ENV_FILE }} >> .env
             git pull
+            echo ${{ secrets.ENV_FILE }} >> .env
             docker-compose down
             docker-compose up -d --build

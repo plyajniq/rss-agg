@@ -32,6 +32,8 @@ COPY --from=builder /app/bin/rssagg /app/rssagg
 
 COPY --from=builder /app/sql/schema /app/sql/schema
 
+COPY --from=builder /app/.env /app/.env
+
 COPY --from=builder /app/static /app/static
 
 COPY --from=builder /app/templates /app/templates
