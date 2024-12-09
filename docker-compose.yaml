@@ -39,6 +39,7 @@ services:
   # Nginx сервеp
   nginx:
     image: nginx:latest
+    container_name: rssagg_nginx
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/configs:/etc/nginx/conf.d:ro
@@ -46,6 +47,8 @@ services:
     depends_on:
       - app
       - db
+    exposw:
+      - "80"
     ports:
       - "80:80"
 
