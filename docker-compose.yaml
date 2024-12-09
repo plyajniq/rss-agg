@@ -47,7 +47,7 @@ services:
     depends_on:
       - app
       - db
-    exposw:
+    expose:
       - "80"
     ports:
       - "80:80"
