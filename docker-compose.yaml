@@ -43,7 +43,8 @@ services:
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/configs:/etc/nginx/conf.d:ro
-      - static_value:/opt/app/static/
+      - /etc/ssl/certs:/etc/ssl/certs:ro
+      - static_value:/home/root/rss-agg/static/
     depends_on:
       - app
       - db
