@@ -75,7 +75,7 @@ jobs:
             cd ~/rss-agg
             rm .env
             touch .env
-            git pull
+            git pull --force
             echo HOST=${{ secrets.APP_HOST }} >> .env
             echo PORT=${{ secrets.APP_PORT }} >> .env
             echo PG_SSL_MODE=${{ secrets.PG_SSL_MODE }} >> .env
