@@ -89,7 +89,7 @@ jobs:
             echo ${{ secrets.CERT_CHAIN }} >> /etc/ssl/certs/chain.pem
             touch /etc/ssl/certs/rss-aggregator.crt
             echo ${{ secrets.CERT_CRT }} >> /etc/ssl/certs/rss-aggregator.crt
-            touch /etc/ssl/certs/private/rss-aggregator.key
+            touch /etc/ssl/private/rss-aggregator.key
             echo ${{ secrets.CERT_PRIVATE_KEY }} >> /etc/ssl/private/rss-aggregator.key
             docker-compose down
             docker-compose up -d --build
