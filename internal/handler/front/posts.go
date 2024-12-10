@@ -47,7 +47,7 @@ func GetFeedPosts(w http.ResponseWriter, r *http.Request) {
 
 	posts, err := db.GetPostsForFeed(r.Context(), database.GetPostsForFeedParams{
 		FeedID: feedID,
-		Limit:  10,
+		Limit:  25,
 	})
 	if err != nil {
 		utils.RespondWithError(w, http.StatusBadRequest, fmt.Sprintf("Fail to get all posts: %v", err))
