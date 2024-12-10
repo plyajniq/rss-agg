@@ -12,7 +12,7 @@
                     <h3 class="card-title">{{ .Title }}</h3>
                     <p class="card-text">{{ .Description.String}}</p>
                     <a href="{{ .Url }}" class="text-decoration-none read-link">Читать полностью *<u>клик</u>*</a>
-                    <p class="post-date">Дата публикации: {{ .PublishedAt.Format "2 января 2006" }}</p>
+                    <p class="post-date">Дата публикации: {{ .PublishedAt.Format "02 января 2006" }}</p>
                 </div>
             </div>
         {{- end }}
